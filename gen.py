@@ -138,7 +138,7 @@ void shuffle(int *array, int n) {
   for array in arrays:
     c_program += f"    sum += {array.name}[{array.gen_idx()}];" + "\n"
   c_program += "  }\n"
-  c_program += "  printf(\"%f\\n\", sum);\n"
+  c_program += f"  printf(\"{random_seed}  %f\\n\", sum);\n"
   c_program += "  clock_t time = clock() - start;\n"
   c_program += "  printf(\"%f\\n\", ((double)time)/CLOCKS_PER_SEC);\n"
   c_program += "  return 0;\n"
