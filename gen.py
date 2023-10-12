@@ -11,10 +11,17 @@ class Array:
     Array.array_name_idx += 1
     self.type = typ
     self.size = size
+    if typ == "char":
+      self.mem_size = size
+    elif typ == "int" or typ == "float":
+      self.mem_size = size * 4
+    else:
+      self.mem_size = size * 8
     self.ap = access_pattern
     self.stride = stride
     if self.ap == 'random':
       self.seq_array = Array('int', size, 'shuffle')
+      self.mem_size += self.seq_array.mem_size
 
   def gen_init(self, loop_count):
     code = f"  {self.type} *{self.name} = ({self.type} *)malloc({self.size}*sizeof({self.type}));" + "\n"
@@ -111,13 +118,19 @@ void shuffle(int *array, int n) {
   # Generate initialization.
   arrays = []
   num_arrays = random.randint(1, 5)
+  total_mem_size = 0
+  mem_size_cap = 2000000000
   #num_arrays = 1
   for _ in range(num_arrays):
-    array_size = random.choice([10, 30, 100, 300, 1000, 10000, 100000, 500000, 2000000, 10000000, 50000000, 200000000, 1000000000])
+    array_size = random.choice([10, 30, 100, 300, 1000, 10000, 100000, 500000, 2000000, 10000000, 50000000, 100000000, 200000000])
     array_type = random.choice(["int", "float", "char", "double"])
     access_pattern = random.choice(['seq', 'random', 'stride'])
     stride = random.choice([2, 3, 8, 13, 299, 10, 100, 1000, 10003, 100002, 500009, 2000001])
     array = Array(array_type, array_size, access_pattern, stride)
+    total_mem_size += array.mem_size
+    if total_mem_size > mem_size_cap:
+      print("Reach mem cap", random_seed)
+      break;
     arrays.append(array)
     c_program += array.gen_init(loop_count)
 
