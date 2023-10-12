@@ -85,6 +85,7 @@ def generate_random_c_program_with_array_loop(random_seed, *args):
   c_program = "#include <stdio.h>\n"
   c_program += "#include <stdlib.h>\n"
   c_program += "#include <math.h>\n"
+  c_program += "#include <time.h>\n"
 
   # Generate the shuffle function body.
   shuffle_body = """
@@ -102,6 +103,7 @@ void shuffle(int *array, int n) {
 
   # Generate a random program structure.
   c_program += "int main(int argc, char *argv[]) {\n"
+  c_program += "  clock_t start = clock();\n"
   c_program += "  double sum=0;\n"
   c_program += f"  srand({random_seed});" + "\n"
   loop_count = 20000
@@ -137,6 +139,8 @@ void shuffle(int *array, int n) {
     c_program += f"    sum += {array.name}[{array.gen_idx()}];" + "\n"
   c_program += "  }\n"
   c_program += "  printf(\"%f\\n\", sum);\n"
+  c_program += "  clock_t time = clock() - start;\n"
+  c_program += "  printf(\"%f\\n\", ((double)time)/CLOCKS_PER_SEC);\n"
   c_program += "  return 0;\n"
   c_program += "}"
 
