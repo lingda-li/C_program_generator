@@ -119,7 +119,7 @@ void shuffle(int *array, int n) {
   arrays = []
   num_arrays = random.randint(1, 5)
   total_mem_size = 0
-  mem_size_cap = 2000000000
+  mem_size_cap = 3500000000
   #num_arrays = 1
   for _ in range(num_arrays):
     array_size = random.choice([10, 30, 100, 300, 1000, 10000, 100000, 500000, 2000000, 10000000, 50000000, 100000000, 200000000])
