@@ -1,5 +1,5 @@
 # C program generator
-A random C program generator for performance testing.
+A random C program generator for performance testing. While there are many program generators/synthesizers for software testing purposes, we are not aware of any for performance testing. Therefore we create one here.
 
 Usage:
 
